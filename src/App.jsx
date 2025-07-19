@@ -19,19 +19,22 @@ const App = () => {
     rootMargin: '0px 0px 400px 0px',
   });
 
-
   return (
-    <div>
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-4xl flex flex-col gap-4 p-4">
 
-      {items.map((item, idx) => (
-        <RoomCard key={idx} room={item} />
-      ))}
+        {items.map((item, idx) => (
+          <RoomCard key={idx} room={item} index={idx}/>
+        ))}
 
-      {hasNextPage && <div ref={infiniteRef} className="p-1">
-        <div className="animate-pulse bg-slate-600 p-4 text-white">
-          Loading...
-        </div>
-      </div>}
+        {hasNextPage && (
+          <div ref={infiniteRef} className="flex justify-center items-center">
+            <div className="animate-pulse bg-slate-600 p-4 text-white rounded-md">
+              Loading...
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

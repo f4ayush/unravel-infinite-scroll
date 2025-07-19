@@ -13,10 +13,10 @@ const MediaRenderer = ({ video, images }) => {
 
   const mediaItems = [
     ...(video ? [{ type: 'video', src: video }] : []),
-    ...(images || []).map((img) => ({ type: 'image', src: img })),
+    ...(images || []).map(img => ({ type: 'image', src: img })),
   ];
 
-  const sharedStyles = "w-full h-64 md:h-72 lg:h-80 object-cover rounded-xl";
+  const sharedStyles = "w-full h-64 sm:h-72 md:h-80 lg:h-96 object-contain rounded-xl";
 
   if (mediaItems.length === 0) {
     return (
@@ -27,18 +27,18 @@ const MediaRenderer = ({ video, images }) => {
   }
 
   return (
-    <div ref={sliderRef} className="keen-slider w-full rounded-xl overflow-hidden shadow-md">
+    <div ref={sliderRef} className="keen-slider rounded-xl overflow-hidden shadow-md">
       {mediaItems.map((item, index) => {
         const isLoaded = loadedItems.includes(index);
 
         return (
-          <div className="keen-slider__slide" key={index}>
-            {/* <div className={`animate-pulse bg-gray-200 ${sharedStyles}`} /> */}
+          <div key={index} className="keen-slider__slide relative">
+            {/* Shimmer while loading */}
             {!isLoaded && (
-              <div className="animate-pulse bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200" />
-
+              <div className="absolute inset-0 z-10 animate-pulse bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200" />
             )}
 
+            {/* Media */}
             {item.type === 'video' ? (
               <video
                 src={item.src}
@@ -46,20 +46,23 @@ const MediaRenderer = ({ video, images }) => {
                 muted
                 loop
                 playsInline
-                className={`${sharedStyles} ${!isLoaded ? 'hidden' : ''}`}
-                onLoadedData={() => setLoadedItems((prev) => [...prev, index])}
+                className={`${sharedStyles} transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+                onLoadedData={() => setLoadedItems(prev => [...prev, index])}
               />
             ) : (
               <img
                 src={item.src}
-                loading="lazy"
                 alt={`media-${index}`}
-                className={`${sharedStyles} ${!isLoaded ? 'hidden' : ''}`}
-                onLoad={() => setLoadedItems((prev) => [...prev, index])}
+                loading="lazy"
+                className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 rounded-xl ${
+                  isLoaded ? 'opacity-100' : 'opacity-0'
+                }`}
+                // className={`${sharedStyles} transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+                onLoad={() => setLoadedItems(prev => [...prev, index])}
                 onError={(e) => {
                   e.target.onerror = null;
                   e.target.src = '/placeholder.jpg';
-                  setLoadedItems((prev) => [...prev, index]);
+                  setLoadedItems(prev => [...prev, index]);
                 }}
               />
             )}

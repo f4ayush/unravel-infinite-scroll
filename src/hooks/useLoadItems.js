@@ -1,19 +1,19 @@
 import { useState } from 'react';
 import sampleData from '../data/index.json';
 const data = sampleData.rooms_by_serial_no?.[0]?.rooms || [];
-const ARRAY_SIZE = 5;
+const ARRAY_SIZE = 10;
 function loadItems(startCursor = 0){
     return new Promise((resolve) => {
       let newArray = [];
   
       setTimeout(() => {
-        for (let i = startCursor; i < startCursor + ARRAY_SIZE; i++) {
+        for (let i = startCursor; (i < startCursor + ARRAY_SIZE)&& i< data.length; i++) {
           const newItem = data[i];
           newArray = [...newArray, newItem];
         }
   
-        resolve({ hasNextPage: true, data: newArray });
-      }, 5000);
+        resolve({ hasNextPage: newArray.length < data.length , data: newArray });
+      }, 500);
     });
   }
   
