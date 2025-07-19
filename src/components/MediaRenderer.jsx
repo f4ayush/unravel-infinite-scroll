@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useKeenSlider } from 'keen-slider/react';
 import 'keen-slider/keen-slider.min.css';
+import SkeletonCard from './SkeletonCard';
 
 const MediaRenderer = ({ video, images }) => {
   const [sliderRef] = useKeenSlider({
@@ -35,7 +36,7 @@ const MediaRenderer = ({ video, images }) => {
           <div key={index} className="keen-slider__slide relative">
             {/* Shimmer while loading */}
             {!isLoaded && (
-              <div className="absolute inset-0 z-10 animate-pulse bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200" />
+              <SkeletonCard/>
             )}
 
             {/* Media */}
@@ -54,16 +55,16 @@ const MediaRenderer = ({ video, images }) => {
                 src={item.src}
                 alt={`media-${index}`}
                 loading="lazy"
-                className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 rounded-xl ${
-                  isLoaded ? 'opacity-100' : 'opacity-0'
-                }`}
-                // className={`${sharedStyles} transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+                // className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 rounded-xl ${
+                //   isLoaded ? 'opacity-100' : 'opacity-0'
+                // }`}
+                className={`${sharedStyles} transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
                 onLoad={() => setLoadedItems(prev => [...prev, index])}
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = '/placeholder.jpg';
-                  setLoadedItems(prev => [...prev, index]);
-                }}
+                // onError={(e) => {
+                //   e.target.onerror = null;
+                //   e.target.src = '/placeholder.jpg';
+                //   setLoadedItems(prev => [...prev, index]);
+                // }}
               />
             )}
           </div>
