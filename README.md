@@ -1,12 +1,58 @@
-# React + Vite
+# 🏨 Unravel Room Listing App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A high-performance, responsive React application for listing rooms with rich media (videos/images), infinite scrolling, and a focus on smooth UX.
 
-Currently, two official plugins are available:
+URL: https://unravel-infinite-scroll-jqb7.vercel.app/
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- 🔁 **Infinite scroll** to fetch and render room listings on demand.
+- 📦 **Global media cache** via React Context to prevent duplicate shimmer UI.
+- 🖼️ **Media carousel** using `keen-slider` for both images and videos.
+- ✨ **Skeleton loaders** while media content loads.
+- 📱 **Responsive design** using TailwindCSS.
+- ⚛️ **Reusable and modular components** built for scale and flexibility.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## ⚙️ Setup
+
+1. **Install dependencies**
+
+```bash
+npm install
+```
+
+2. **Start Project**
+
+```bash
+npm run dev
+```
+---
+
+## 🎯 Performance Optimizations
+- ✅ **Shared Media Cache**
+
+    All media (images/videos) are tracked via MediaCacheContext.
+
+- ✅ **Skeleton UI**
+
+    While loading video or image, a SkeletonCard is shown.
+
+    Improves perceived performance and avoids layout shifts.
+
+- ✅ **Keen-Slider**
+    
+    Responsive and lightweight carousel solution for media.
+
+    Supports autoplay videos and lazy-loading images.
+
+- ✅ **Reusability**
+    
+    MediaRenderer is completely reusable across RoomCard and VariantCard.
+
+    Easily scalable for future pages like property listings, gallery views, etc.
+
+
+---
