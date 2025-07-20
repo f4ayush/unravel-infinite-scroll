@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useKeenSlider } from 'keen-slider/react';
 import 'keen-slider/keen-slider.min.css';
 import SkeletonCard from './SkeletonCard';
+import { useMediaCache } from '../contexts/MediaCacheContext';
+
 
 const MediaRenderer = ({ video, images }) => {
   const [sliderRef] = useKeenSlider({
@@ -10,7 +12,9 @@ const MediaRenderer = ({ video, images }) => {
     slides: { perView: 1 },
   });
 
-  const [loadedItems, setLoadedItems] = useState([]);
+  const { isMediaLoaded, markMediaAsLoaded } = useMediaCache();
+
+  const [forceRender, setForceRender] = useState(false);
 
   const mediaItems = [
     ...(video ? [{ type: 'video', src: video }] : []),
@@ -30,7 +34,8 @@ const MediaRenderer = ({ video, images }) => {
   return (
     <div ref={sliderRef} className="keen-slider rounded-xl overflow-hidden shadow-md">
       {mediaItems.map((item, index) => {
-        const isLoaded = loadedItems.includes(index);
+        const isLoaded = isMediaLoaded(item.src);
+
 
         return (
           <div key={index} className="keen-slider__slide relative">
@@ -47,24 +52,23 @@ const MediaRenderer = ({ video, images }) => {
                 muted
                 loop
                 playsInline
+                loading="lazy"
                 className={`${sharedStyles} transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
-                onLoadedData={() => setLoadedItems(prev => [...prev, index])}
+                onLoadedData={() => {
+                  markMediaAsLoaded(item.src);
+                  setForceRender((prev) => !prev);
+                }}
               />
             ) : (
               <img
                 src={item.src}
                 alt={`media-${index}`}
                 loading="lazy"
-                // className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 rounded-xl ${
-                //   isLoaded ? 'opacity-100' : 'opacity-0'
-                // }`}
                 className={`${sharedStyles} transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
-                onLoad={() => setLoadedItems(prev => [...prev, index])}
-                // onError={(e) => {
-                //   e.target.onerror = null;
-                //   e.target.src = '/placeholder.jpg';
-                //   setLoadedItems(prev => [...prev, index]);
-                // }}
+                onLoad={() => {
+                  markMediaAsLoaded(item.src);
+                  setForceRender((prev) => !prev);
+                }}
               />
             )}
           </div>
