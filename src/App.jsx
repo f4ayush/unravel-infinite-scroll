@@ -1,9 +1,6 @@
-// App.jsx
-import React from 'react';
-import RoomCard from './components/RoomCard';
+
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 import { useLoadItems } from './hooks/useLoadItems';
-import { v4 as uuidv4 } from 'uuid';
 import RoomList from './components/RoomList';
 
 const App = () => {
