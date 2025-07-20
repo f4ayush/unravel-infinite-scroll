@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect, useMemo, lazy, Suspense } from 'react';
 import MediaRenderer from './MediaRenderer';
-const VariantCard = lazy(() => import('./VariantCard')); // 👈 Lazy load
+const VariantCard = lazy(() => import('./VariantCard'));
 
 const RoomCard = React.memo(({ room, id }) => {
   const [showVariants, setShowVariants] = useState(false);
@@ -28,10 +28,6 @@ const RoomCard = React.memo(({ room, id }) => {
 
         <p className="text-sm text-gray-500 line-clamp-3">{room.description}</p>
 
-        <div className="mt-auto pt-2 text-right">
-          <span className="text-sm text-gray-400">Price</span>
-          <p className="text-md font-bold text-gray-900">$ {room.price || "NA"}</p>
-        </div>
 
         {room.variants?.length > 0 && (
           <div className="mt-4 transition-all duration-500 ease-in-out">
